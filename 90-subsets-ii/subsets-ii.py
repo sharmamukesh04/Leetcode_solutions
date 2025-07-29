@@ -1,18 +1,18 @@
 class Solution:
-    def helper(self, i, nums, temp, ans):
-        if i>=len(nums):
-            ans.append(temp[:])
-            return
-        
-        temp.append(nums[i])
-        self.helper(i+1, nums, temp, ans)
-        temp.pop()
-        while i+1<len(nums) and nums[i]==nums[i+1]:
-            i+=1
-        self.helper(i+1, nums, temp, ans)
-
     def subsetsWithDup(self, nums: List[int]) -> List[List[int]]:
         ans = []
+        temp = []
         nums.sort()
-        self.helper(0, nums, [], ans)
+        n=len(nums)
+        def helper(i):
+            if i==n:
+                ans.append(temp[:])
+                return
+            temp.append(nums[i])
+            helper(i+1)
+            temp.pop()
+            while i+1<n and nums[i]==nums[i+1]:
+                i+=1
+            helper(i+1)
+        helper(0)
         return ans
